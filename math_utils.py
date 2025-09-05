@@ -88,21 +88,53 @@ def fibonacci_sequence(n: int) -> List[int]:
 
 
 # TODO: Contributor 2 - Add your function here
-# Example:
-# def matrix_multiply(matrix_a: List[List[float]], matrix_b: List[List[float]]) -> List[List[float]]:
-#     """
-#     Multiply two matrices.
-#     
-#     Args:
-#         matrix_a (List[List[float]]): First matrix
-#         matrix_b (List[List[float]]): Second matrix
-#         
-#     Returns:
-#         List[List[float]]: Resulting matrix
-#         
-#     @author: [Your Name]
-#     """
-#     pass
+# TODO: Contributor 2 - Add your function here
+def matrix_multiply(matrix_a: List[List[float]], matrix_b: List[List[float]]) -> List[List[float]]:
+    """
+    Multiply two matrices.
+
+    Args:
+        matrix_a (List[List[float]]): First matrix
+        matrix_b (List[List[float]]): Second matrix
+
+    Returns:
+        List[List[float]]: Resulting matrix
+
+    Raises:
+        ValueError: If matrices cannot be multiplied due to shape mismatch
+        TypeError: If input is not a list of lists of numbers
+
+    @author: Contributor 2
+    """
+    # Validate input types
+    if not (isinstance(matrix_a, list) and all(isinstance(row, list) for row in matrix_a)):
+        raise TypeError("matrix_a must be a list of lists")
+    if not (isinstance(matrix_b, list) and all(isinstance(row, list) for row in matrix_b)):
+        raise TypeError("matrix_b must be a list of lists")
+    if len(matrix_a) == 0 or len(matrix_b) == 0:
+        raise ValueError("Input matrices cannot be empty")
+    if any(len(row) != len(matrix_a[0]) for row in matrix_a):
+        raise ValueError("All rows in matrix_a must have the same length")
+    if any(len(row) != len(matrix_b[0]) for row in matrix_b):
+        raise ValueError("All rows in matrix_b must have the same length")
+    if len(matrix_a[0]) != len(matrix_b):
+        raise ValueError("Number of columns in matrix_a must equal number of rows in matrix_b")
+
+    result = []
+    for i in range(len(matrix_a)):
+        result_row = []
+        for j in range(len(matrix_b[0])):
+            sum_product = 0.0
+            for k in range(len(matrix_b)):
+                a_val = matrix_a[i][k]
+                b_val = matrix_b[k][j]
+                if not isinstance(a_val, (int, float)) or not isinstance(b_val, (int, float)):
+                    raise TypeError("Matrix elements must be numeric")
+                sum_product += a_val * b_val
+            result_row.append(sum_product)
+        result.append(result_row)
+    return result
+
 
 # Contributor 3 - Statistics & Data Analysis Functions
 # @author: Contributor 3

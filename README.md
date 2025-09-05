@@ -81,6 +81,30 @@ collab-coding-8/
 
 ### 🔢 **Linear Algebra & Matrix Operations** (Contributor 2)
 - `matrix_multiply(matrix_a, matrix_b)` - Multiply two matrices with validation
+
+#### Matrix Multiplication
+`matrix_multiply(matrix_a, matrix_b)` multiplies two matrices and returns the resulting matrix. It validates input types and shapes, raising `TypeError` or `ValueError` for invalid inputs.
+
+**Usage Example:**
+```python
+from math_utils import matrix_multiply
+
+# Example 1: 2x2 matrices
+matrix_a = [[1, 2], [3, 4]]
+matrix_b = [[5, 6], [7, 8]]
+result = matrix_multiply(matrix_a, matrix_b)
+print(result)  # Output: [[19, 22], [43, 50]]
+
+# Example 2: Non-square matrices
+matrix_a = [[1, 2, 3], [4, 5, 6]]
+matrix_b = [[7, 8], [9, 10], [11, 12]]
+result = matrix_multiply(matrix_a, matrix_b)
+print(result)  # Output: [[58, 64], [139, 154]]
+```
+
+**Error Handling:**
+- Raises `ValueError` if matrix shapes are incompatible for multiplication or if matrices are empty.
+- Raises `TypeError` if any element is not numeric or if input is not a list of lists.
 - `matrix_determinant(matrix)` - Calculate determinant for 2x2 and 3x3 matrices
 - `matrix_transpose(matrix)` - Transpose any matrix (swap rows and columns)
 - `vector_dot_product(vector_a, vector_b)` - Calculate dot product of two vectors
