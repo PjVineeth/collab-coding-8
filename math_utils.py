@@ -371,3 +371,67 @@ def outlier_detection(data: List[float], method: str = 'iqr') -> List[float]:
 #     @author: [Your Name]
 #     """
 #     pass
+
+from typing import List
+
+def prime_number_generator(limit: int) -> List[int]:
+    """
+    Generate all prime numbers up to a given limit.
+
+    Args:
+        limit (int): Upper limit for prime number generation
+
+    Returns:
+        List[int]: List of prime numbers up to the limit (inclusive if prime)
+
+    Raises:
+        ValueError: If limit is less than 2
+
+    @author: Prem Prakash
+    """
+    if limit < 2:
+        raise ValueError("Limit must be at least 2")
+
+    primes = []
+    is_prime = [True] * (limit + 1)
+    is_prime[0], is_prime[1] = False, False
+
+    for num in range(2, limit + 1):
+        if is_prime[num]:
+            primes.append(num)
+            for multiple in range(num * num, limit + 1, num):
+                is_prime[multiple] = False
+
+    return primes
+
+from typing import List
+
+def prime_number_generator(limit: int) -> List[int]:
+    """
+    Generate all prime numbers up to a given limit.
+
+    Args:
+        limit (int): Upper limit for prime number generation
+
+    Returns:
+        List[int]: List of prime numbers up to the limit (inclusive if prime)
+
+    Raises:
+        ValueError: If limit is less than 2
+
+    @author: Prem Prakash
+    """
+    if limit < 2:
+        raise ValueError("Limit must be at least 2")
+
+    primes = []
+    is_prime = [True] * (limit + 1)
+    is_prime[0], is_prime[1] = False, False
+
+    for num in range(2, limit + 1):
+        if is_prime[num]:
+            primes.append(num)
+            for multiple in range(num * num, limit + 1, num):
+                is_prime[multiple] = False
+
+    return primes
