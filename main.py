@@ -11,7 +11,7 @@ functions are added by contributors.
 
 import argparse
 import sys
-from math_utils import basic_calculator
+from math_utils import basic_calculator, fibonacci_sequence
 # Import other functions as they are added by contributors
 
 
@@ -37,13 +37,17 @@ def demo_functions():
     except ValueError as e:
         print(f"Error: {e}")
     
-    # TODO: Add demonstrations for other functions as they are contributed
-    # Example:
-    # print("\n2. Fibonacci Sequence Demo:")
-    # print("-" * 30)
-    # fib_sequence = fibonacci_sequence(10)
-    # print(f"First 10 Fibonacci numbers: {fib_sequence}")
+    # Demonstrate Fibonacci sequence
+    print("\n2. Fibonacci Sequence Demo:")
+    print("-" * 30)
+    try:
+        fib_sequence = fibonacci_sequence(10)
+        print(f"First 10 Fibonacci numbers: {fib_sequence}")
+    except (ValueError, TypeError) as e:
+        print(f"Error: {e}")
+
     
+    # TODO: Add demonstrations for other functions as they are contributed
     # print("\n3. Matrix Operations Demo:")
     # print("-" * 30)
     # matrix_a = [[1, 2], [3, 4]]
