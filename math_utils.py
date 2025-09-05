@@ -51,21 +51,41 @@ def basic_calculator(operation: str, a: float, b: float) -> float:
 # CONTRIBUTOR FUNCTIONS - Add your functions below this line
 # =============================================================================
 
-# TODO: Contributor 1 - Add your function here
-# Example:
-# def fibonacci_sequence(n: int) -> List[int]:
-#     """
-#     Generate Fibonacci sequence up to n terms.
-#     
-#     Args:
-#         n (int): Number of terms to generate
-#         
-#     Returns:
-#         List[int]: List containing the Fibonacci sequence
-#         
-#     @author: [Your Name]
-#     """
-#     pass
+# TODO: Contributor 1 - Generate Fibonacci sequence
+from typing import List
+
+def fibonacci_sequence(n: int) -> List[int]:
+    """
+    Generate Fibonacci sequence up to n terms.
+
+    Args:
+        n (int): Number of terms to generate (must be >= 0)
+
+    Returns:
+        List[int]: List containing the Fibonacci sequence up to n terms
+
+    Raises:
+        ValueError: If n is negative
+        TypeError: If input is not an integer
+
+    Example:
+        >>> fibonacci_sequence(5)
+        [0, 1, 1, 2, 3]
+
+    @author: Priyansh
+    """
+    if not isinstance(n, int):
+        raise TypeError("Input must be an integer")
+    if n < 0:
+        raise ValueError("Number of terms cannot be negative")
+
+    sequence = []
+    a, b = 0, 1
+    for _ in range(n):
+        sequence.append(a)
+        a, b = b, a + b
+    return sequence
+
 
 # TODO: Contributor 2 - Add your function here
 # Example:
