@@ -84,21 +84,277 @@ def basic_calculator(operation: str, a: float, b: float) -> float:
 #     """
 #     pass
 
-# TODO: Contributor 3 - Add your function here
-# Example:
-# def statistical_analysis(data: List[float]) -> dict:
-#     """
-#     Perform basic statistical analysis on a dataset.
-#     
-#     Args:
-#         data (List[float]): Input dataset
-#         
-#     Returns:
-#         dict: Dictionary containing mean, median, mode, std_dev
-#         
-#     @author: [Your Name]
-#     """
-#     pass
+# Contributor 3 - Statistics & Data Analysis Functions
+# @author: Contributor 3
+
+def statistical_analysis(data: List[float]) -> dict:
+    """
+    Perform basic statistical analysis on a dataset.
+    
+    Calculates mean, median, mode, and standard deviation for the given dataset.
+    
+    Args:
+        data (List[float]): Input dataset
+        
+    Returns:
+        dict: Dictionary containing mean, median, mode, std_dev
+        
+    Raises:
+        ValueError: If data is empty or contains invalid values
+        TypeError: If data is not a list or contains non-numeric values
+        
+    @author: Contributor 3
+    """
+    if not isinstance(data, list):
+        raise TypeError("Data must be a list")
+    
+    if len(data) == 0:
+        raise ValueError("Data cannot be empty")
+    
+    # Check for non-numeric values
+    for value in data:
+        if not isinstance(value, (int, float)):
+            raise TypeError("All data values must be numeric")
+    
+    # Calculate mean
+    mean = sum(data) / len(data)
+    
+    # Calculate median
+    sorted_data = sorted(data)
+    n = len(sorted_data)
+    if n % 2 == 0:
+        median = (sorted_data[n//2 - 1] + sorted_data[n//2]) / 2
+    else:
+        median = sorted_data[n//2]
+    
+    # Calculate mode
+    from collections import Counter
+    counter = Counter(data)
+    max_count = max(counter.values())
+    mode = [k for k, v in counter.items() if v == max_count]
+    if len(mode) == len(data) and len(data) > 1:
+        mode = None  # No mode if all values are unique
+    elif len(mode) == 1:
+        mode = mode[0]
+    else:
+        mode = mode  # Keep as list if multiple modes
+    
+    # Calculate standard deviation
+    variance = sum((x - mean) ** 2 for x in data) / len(data)
+    std_dev = math.sqrt(variance)
+    
+    return {
+        'mean': mean,
+        'median': median,
+        'mode': mode,
+        'std_dev': std_dev,
+        'count': len(data),
+        'min': min(data),
+        'max': max(data)
+    }
+
+
+def linear_regression(x_data: List[float], y_data: List[float]) -> dict:
+    """
+    Perform simple linear regression analysis.
+    
+    Calculates the linear relationship between x and y variables using
+    the least squares method.
+    
+    Args:
+        x_data (List[float]): Independent variable data
+        y_data (List[float]): Dependent variable data
+        
+    Returns:
+        dict: Dictionary containing slope, intercept, r_squared, and equation
+        
+    Raises:
+        ValueError: If data lengths don't match or data is empty
+        TypeError: If inputs are not lists or contain non-numeric values
+        
+    @author: Contributor 3
+    """
+    if not isinstance(x_data, list) or not isinstance(y_data, list):
+        raise TypeError("Both x_data and y_data must be lists")
+    
+    if len(x_data) == 0 or len(y_data) == 0:
+        raise ValueError("Data cannot be empty")
+    
+    if len(x_data) != len(y_data):
+        raise ValueError("x_data and y_data must have the same length")
+    
+    # Check for non-numeric values
+    for value in x_data + y_data:
+        if not isinstance(value, (int, float)):
+            raise TypeError("All data values must be numeric")
+    
+    n = len(x_data)
+    
+    # Calculate means
+    x_mean = sum(x_data) / n
+    y_mean = sum(y_data) / n
+    
+    # Calculate slope and intercept using least squares method
+    numerator = sum((x_data[i] - x_mean) * (y_data[i] - y_mean) for i in range(n))
+    denominator = sum((x_data[i] - x_mean) ** 2 for i in range(n))
+    
+    if denominator == 0:
+        raise ValueError("Cannot perform regression: x_data has no variance")
+    
+    slope = numerator / denominator
+    intercept = y_mean - slope * x_mean
+    
+    # Calculate R-squared
+    y_pred = [slope * x + intercept for x in x_data]
+    ss_res = sum((y_data[i] - y_pred[i]) ** 2 for i in range(n))
+    ss_tot = sum((y_data[i] - y_mean) ** 2 for i in range(n))
+    
+    if ss_tot == 0:
+        # If y_data has no variance, R-squared is undefined (set to 0)
+        r_squared = 0.0
+    else:
+        r_squared = 1 - (ss_res / ss_tot)
+    
+
+    # Calculate correlation coefficient
+    if ss_tot == 0:
+        correlation = 0.0
+    else:
+        correlation = math.sqrt(r_squared) if slope >= 0 else -math.sqrt(r_squared)
+    
+    return {
+        'slope': slope,
+        'intercept': intercept,
+        'r_squared': r_squared,
+        'equation': f"y = {slope:.4f}x + {intercept:.4f}",
+        'correlation': correlation
+    }
+
+
+def data_normalization(data: List[float], method: str = 'z_score') -> List[float]:
+    """
+    Normalize data using specified method.
+    
+    Supports z-score normalization and min-max scaling methods.
+    
+    Args:
+        data (List[float]): Input dataset to normalize
+        method (str): Normalization method ('z_score' or 'min_max')
+        
+    Returns:
+        List[float]: Normalized data
+        
+    Raises:
+        ValueError: If data is empty, has no variance, or invalid method
+        TypeError: If data is not a list or contains non-numeric values
+        
+    @author: Contributor 3
+    """
+    if not isinstance(data, list):
+        raise TypeError("Data must be a list")
+    
+    if len(data) == 0:
+        raise ValueError("Data cannot be empty")
+    
+    # Check for non-numeric values
+    for value in data:
+        if not isinstance(value, (int, float)):
+            raise TypeError("All data values must be numeric")
+    
+    if method not in ['z_score', 'min_max']:
+        raise ValueError("Method must be 'z_score' or 'min_max'")
+    
+    if method == 'z_score':
+        # Z-score normalization: (x - mean) / std_dev
+        mean = sum(data) / len(data)
+        variance = sum((x - mean) ** 2 for x in data) / len(data)
+        std_dev = math.sqrt(variance)
+        
+        if std_dev == 0:
+            raise ValueError("Cannot normalize: data has no variance")
+        
+        return [(x - mean) / std_dev for x in data]
+    
+    elif method == 'min_max':
+        # Min-max normalization: (x - min) / (max - min)
+        min_val = min(data)
+        max_val = max(data)
+        
+        if max_val == min_val:
+            raise ValueError("Cannot normalize: data has no variance")
+        
+        return [(x - min_val) / (max_val - min_val) for x in data]
+
+
+def outlier_detection(data: List[float], method: str = 'iqr') -> List[float]:
+    """
+    Detect outliers in a dataset using specified method.
+    
+    Supports IQR (Interquartile Range) and Z-score methods for outlier detection.
+    
+    Args:
+        data (List[float]): Input dataset
+        method (str): Detection method ('iqr' or 'z_score')
+        
+    Returns:
+        List[float]: List of outlier values
+        
+    Raises:
+        ValueError: If data is empty or invalid method
+        TypeError: If data is not a list or contains non-numeric values
+        
+    @author: Contributor 3
+    """
+    if not isinstance(data, list):
+        raise TypeError("Data must be a list")
+    
+    if len(data) == 0:
+        raise ValueError("Data cannot be empty")
+    
+    # Check for non-numeric values
+    for value in data:
+        if not isinstance(value, (int, float)):
+            raise TypeError("All data values must be numeric")
+    
+    if method not in ['iqr', 'z_score']:
+        raise ValueError("Method must be 'iqr' or 'z_score'")
+    
+    outliers = []
+    
+    if method == 'iqr':
+        # IQR method: outliers are values outside Q1 - 1.5*IQR and Q3 + 1.5*IQR
+        sorted_data = sorted(data)
+        n = len(sorted_data)
+        
+        # Calculate Q1 and Q3
+        q1_idx = n // 4
+        q3_idx = 3 * n // 4
+        
+        if n % 4 == 0:
+            q1 = sorted_data[q1_idx - 1] if q1_idx > 0 else sorted_data[0]
+            q3 = sorted_data[q3_idx - 1] if q3_idx > 0 else sorted_data[-1]
+        else:
+            q1 = sorted_data[q1_idx]
+            q3 = sorted_data[q3_idx]
+        
+        iqr = q3 - q1
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+        
+        outliers = [x for x in data if x < lower_bound or x > upper_bound]
+    
+    elif method == 'z_score':
+        # Z-score method: outliers are values with |z-score| > 3
+        mean = sum(data) / len(data)
+        variance = sum((x - mean) ** 2 for x in data) / len(data)
+        std_dev = math.sqrt(variance)
+        
+        if std_dev == 0:
+            return []  # No outliers if no variance
+        
+        outliers = [x for x in data if abs((x - mean) / std_dev) > 3]
+    
+    return outliers 
 
 # TODO: Contributor 4 - Add your function here
 # Example:
